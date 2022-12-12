@@ -1,0 +1,14 @@
+.form__submit-button_disabled {
+    background-color: transparent;
+    border: 1px solid black;
+    color: black;
+    opacity: 20%;
+    cursor: default;
+}
+
+.form__submit-button_disabled:hover {
+    background-color: transparent;
+    border: 1px solid black;
+    color: black;
+    opacity: 20%;
+}

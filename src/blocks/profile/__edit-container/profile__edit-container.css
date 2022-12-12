@@ -1,0 +1,7 @@
+.profile__edit-container {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    align-content: center;
+    justify-content: center;
+}

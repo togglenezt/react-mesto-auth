@@ -1,0 +1,16 @@
+.form__text-error {
+    visibility: hidden;
+    color: red;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    max-width: 358px;
+    width: 100%;
+    height: 30px;
+}
+
+@media screen and (max-width: 550px) {
+    .form__text-error {
+        max-width: 238px;
+    }
+}

@@ -1,0 +1,15 @@
+.place__like {
+    background-image: url(../../../images/like.svg);
+    color: black;
+    height: 19px;
+    width: 22px;
+    background-size: cover;
+    transition: opacity 0.5s linear;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.place__like:hover {
+    opacity: 0.5;
+}

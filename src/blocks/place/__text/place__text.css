@@ -1,0 +1,7 @@
+.place__text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 25px auto 31px;
+    padding: 0 21px;
+}
