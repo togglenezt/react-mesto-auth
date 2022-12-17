@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PopupWithForm from './PopupWithForm';
 
 export default function DeletePopup(props) {
@@ -9,12 +10,14 @@ export default function DeletePopup(props) {
     props.onDeleteCard(props.selectedCard)
   }
 
+  
   return(
     <PopupWithForm
           name="delete"
           title="Вы уверены?"
           buttonText="Да" 
           isOpen={props.isOpen}
+          isLoading={props.isLoading}
           onClose={props.onClose}
           onSubmit={handleSubmit}
           />

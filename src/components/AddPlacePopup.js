@@ -1,67 +1,70 @@
 import React from 'react';
+import useFormValidator from '../hooks/useFormValidator';
 import PopupWithForm from './PopupWithForm';
-import useForm from '../hooks/useForm';
+
 
 export default function AddPlacePopup(props) {
 
-    const {
-        values,
-        errors,
-        isElementValid,
-        handleElementChange,
-        resetFormInputs
-    } = useForm({});
+  const {
+    values,
+    errors,
+    isElementValid,
+    handleElementChange,
+    resetFormInputs
+  } = useFormValidator({});
 
-    function handleSubmit(e) {
-        e.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
-        props.onAddPlace(values);
-    }
+    props.onAddPlace(values)
+  }
 
-    React.useEffect(() => {
-        resetFormInputs();
-    }, [resetFormInputs, props.isOpen]);
+  React.useEffect(() => {
+    resetFormInputs();
+}, [resetFormInputs, props.isOpen]);
 
-    return (
-        <PopupWithForm
-            name="add"
-            title="Новое место"
-            buttonText="Сохранить"
-            isOpen={props.isOpen}
-            onClose={props.onClose}
-            onSubmit={handleSubmit}
-            isDisabled={!isElementValid}
+  return (
+    <PopupWithForm
+          name="add"
+          title="Новое место"
+          buttonText="Сохранить"
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          onSubmit={handleSubmit}
+          isDisabled={!isElementValid}
+          isLoading={props.isLoading}
         >
-            <>
-                <input
-                    type="text"
-                    placeholder="Название"
-                    className={errors.name ? "form__field form__field_type_error" : "form__field"}
-                    name="name"
-                    id="place-name-input"
-                    required minLength="2"
-                    maxLength="30"
-                    value={values.name || ""}
-                    onChange={handleElementChange}
-                />
-                <span className={errors.name ? "form__text-error form__field_type_active" : "form__text-error"}>
-                    {errors.name}
-                </span>
+            <input
+            type="text"
+            placeholder="Название"
+            className={errors.name ? "popup__text popup__text_type_error" : "popup__text"}
+            name="name"
+            id="image-input"
+            required
+            minLength="2"
+            maxLength="30"
+            value={values.name || ""}
+            onChange={handleElementChange}
+            />
 
-                <input
-                    type="url"
-                    placeholder="Ссылка на картинку"
-                    className={errors.link ? "form__field form__field_type_error" : "form__field"}
-                    id="place-link-input"
-                    name="link"
-                    required
-                    value={values.link || ""}
-                    onChange={handleElementChange}
-                />
-                <span className={errors.name ? "form__text-error form__field_type_active" : "form__text-error"}>
-                    {errors.link}
-                </span>
-            </>
+            <span className={errors.name ? "popup__text-error popup__text-error_visible" : "popup__text-error"}>
+              {errors.name}
+            </span>
+
+            <input
+            type="url"
+            placeholder="Ссылка на картинку"
+            className={errors.link ? "popup__text popup__text_type_error" : "popup__text"}
+            id="link-input"
+            name="link"
+            required
+            value={values.link || ""}
+            onChange={handleElementChange}
+            />
+
+            <span className={errors.link ? "popup__text-error popup__text-error_visible" : "popup__text-error"}>
+              {errors.link}
+            </span>
         </PopupWithForm>
-    )
+  )
 }

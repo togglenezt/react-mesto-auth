@@ -1,15 +1,14 @@
 .header {
-    min-width: 320px;
-    max-width: 880px;
-    display: flex;
-    margin: 45px auto 0;
-    box-sizing: border-box;
-    border-bottom: 1px solid #545454;
-    padding-bottom: 40px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding-top: 45px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
 
-@media screen and (max-width:900px) {
-    .header {
-        margin-top: 28px;
-    }  
+@media screen and (max-width: 550px){
+  .header {
+    padding-top: 0;
+    flex-direction: column;
+  }
 }
