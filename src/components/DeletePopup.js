@@ -17,7 +17,6 @@ export default function DeletePopup(props) {
           title="Вы уверены?"
           buttonText="Да" 
           isOpen={props.isOpen}
-          isLoading={props.isLoading}
           onClose={props.onClose}
           onSubmit={handleSubmit}
           />

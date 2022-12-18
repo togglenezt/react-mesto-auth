@@ -31,9 +31,8 @@ export default function App() {
   const [cards, setCards] = React.useState([]);
   const [isAvatarLoading, setAvatarLoading] = React.useState(false);
   const [isUserInfoLoading, setUserInfoLoading] = React.useState(false);
-  // const [isButtonSubmitLoading, setButtonSubmitLoading] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [userEmail, setUserEmail] = React.useState({});
+  const [userEmail, setUserEmail] = React.useState("");
   const [isSuccessTooltipStatus, setSuccessTooltipStatus] = React.useState(false);
 
   const history = useHistory();
@@ -66,7 +65,6 @@ export default function App() {
   }
 
   function handleUpdateUser(updatedUserInfo) {
-    // setButtonSubmitLoading(true);
     setUserInfoLoading(true);
     api.setUserInfo(updatedUserInfo)
       .then((newUserInfo) => {
@@ -78,13 +76,11 @@ export default function App() {
       })
       .finally(() => {
         setUserInfoLoading(false);
-        // setButtonSubmitLoading(false);
       })
   }
 
   function handleUpdateAvatar(updatedAvatar) {
     setAvatarLoading(true);
-    //setButtonSubmitLoading(true);
     api.setAvatar(updatedAvatar)
       .then((newAvatar) => {
         setCurrentUser(newAvatar);
@@ -95,7 +91,6 @@ export default function App() {
       })
       .finally(() => {
         setAvatarLoading(false);
-        // setButtonSubmitLoading(false);
       })
   }
 
@@ -112,7 +107,6 @@ export default function App() {
   }
 
   function handleCardDelete(card) {
-    //setButtonSubmitLoading(true);
     api.deleteCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => (c._id !== card._id)))
@@ -122,12 +116,11 @@ export default function App() {
         console.log(err);
       })
       .finally(() => {
-        // setButtonSubmitLoading(false);
       })
   }
 
   function handleAddPlace(card) {
-    //setButtonSubmitLoading(true);
+
     api.addCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -137,7 +130,6 @@ export default function App() {
         console.log(err);
       })
       .finally(() => {
-        //setButtonSubmitLoading(false);
       })
   }
 
@@ -147,7 +139,6 @@ export default function App() {
   }
 
   function handleRegister(data) {
-    // setButtonSubmitLoading(true);
     register(data)
       .then((res) => {
         if (res) {
@@ -160,18 +151,17 @@ export default function App() {
         setSuccessTooltipStatus(false);
       })
       .finally(() => {
-        // setButtonSubmitLoading(false);
+        ;
         setToolTipPopupOpen(true);
       })
   }
 
   function handleLogin(data) {
-    //setButtonSubmitLoading(true);
     authorize(data)
       .then((res) => {
         if (res.token) {
           setIsLoggedIn(true);
-          setUserEmail(data);
+          setUserEmail(data.email);
           localStorage.setItem('jwt', res.token);
           history.push('/');
 
@@ -182,7 +172,7 @@ export default function App() {
         setToolTipPopupOpen(true);
       })
       .finally(() => {
-        //setButtonSubmitLoading(false);
+        ;
       })
   }
 
@@ -199,10 +189,14 @@ export default function App() {
       checkToken(jwt)
         .then((res) => {
           setIsLoggedIn(true);
-          setUserEmail(res.data);
+          setUserEmail(res.data.email);
           history.push('/');
         })
+    }
+  }, [history]);
 
+  React.useEffect(() => {
+    if (isLoggedIn) {
       Promise.all([api.getUserInfo(), api.getCards()])
         .then(([user, cards]) => {
           setCurrentUser(user);
@@ -215,9 +209,8 @@ export default function App() {
           setUserInfoLoading(false);
           setAvatarLoading(false);
         })
-
     }
-  }, [history]);
+  }, [isLoggedIn])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -251,7 +244,6 @@ export default function App() {
             <Register
               onSignUp={handleRegister}
               isSuccessTooltipStatus={isSuccessTooltipStatus}
-            // isLoading={isButtonSubmitLoading}
             />
           </Route>
 
@@ -260,7 +252,6 @@ export default function App() {
             <Login
               onSignIn={handleLogin}
               isLoggedIn={isLoggedIn}
-            //isLoading={isButtonSubmitLoading}
             />
           </Route>
 
@@ -274,28 +265,24 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-        //isLoading={isButtonSubmitLoading}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
-        //isLoading={isButtonSubmitLoading}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-        // isLoading={isButtonSubmitLoading}
         />
 
         <DeletePopup
           isOpen={isDeletePopupOpen}
           onClose={closeAllPopups}
           onDeleteCard={handleCardDelete}
-          //  isLoading={isButtonSubmitLoading}
           selectedCard={selectedCard}
         />
 

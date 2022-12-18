@@ -20,7 +20,7 @@ export default function Register(props) {
   
   return (
     <AuthForm
-      submitButtonText={props.isLoading ? 'Загрузка...' : 'Зарегистрироваться'}
+      submitButtonText='Зарегистрироваться'
       title='Регистрация'
       isValid={isElementValid}
       onSubmit={handleSubmit}

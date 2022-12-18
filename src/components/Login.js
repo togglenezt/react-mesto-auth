@@ -20,7 +20,7 @@ export default function Login(props) {
 
   return (
     <AuthForm
-      submitButtonText={props.isLoading ? 'Загрузка...' : 'Войти'}
+      submitButtonText='Войти'
       title='Вход'
       isValid={isElementValid}
       onSubmit={handleSubmit}
