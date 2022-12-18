@@ -19,7 +19,7 @@ function Header(props) {
   return (
     <header className="header">
       <HeaderMenu
-        userData={props.userData}
+        userEmail={props.userEmail}
         onSignOut={handleSignOut}
         isOpen={hamburgerMenuOpen}
       />

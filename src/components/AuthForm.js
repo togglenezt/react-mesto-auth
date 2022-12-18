@@ -1,9 +1,7 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 export default function AuthForm(props) {
-
-  const {pathname} = useLocation();
 
   return (
     <section className='auth'>
@@ -25,13 +23,13 @@ export default function AuthForm(props) {
           disabled={!props.isValid}
           type="submit">
 
-            {props.submitButtonText}
+          {props.submitButtonText}
 
-          </button>
+        </button>
 
-          {pathname === '/sign-up' && (
-            <p className='auth__caption'>Уже зарегистрированы? <Link className='auth__caption_type_link' to='/sign-in'>Войти</Link></p>
-          )}
+        <Route path = '/sign-up'>
+          <p className = 'auth__caption'> Уже зарегистрированы? <Link className='auth__caption_type_link' to='/sign-in'>Войти</Link></p>
+        </Route>
 
       </form>
 

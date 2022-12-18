@@ -9,16 +9,12 @@ export default function Register(props) {
     errors,
     isElementValid,
     handleElementChange,
-    resetFormInputs
   } = useFormValidator({});
 
   function handleSubmit(e) {
     e.preventDefault();
     
     props.onSignUp(values)
-    if(props.isSuccess) {
-      resetFormInputs();
-    }
   }
 
   

@@ -10,16 +10,12 @@ export default function Login(props) {
     errors,
     isElementValid,
     handleElementChange,
-    resetFormInputs
   } = useFormValidator({});
 
   function handleSubmit(e) {
     e.preventDefault();
 
     props.onSignIn(values);
-    if(props.isLoggedIn) {
-      resetFormInputs();
-    }
   }
 
   return (

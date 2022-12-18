@@ -19,79 +19,54 @@ import { authorize, checkToken, register } from '../utils/auth';
 
 export default function App() {
 
-  const [isEditAvatarPopupOpen, setEditAvatarState] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfileState] = React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlaceState] = React.useState(false);
-  const [isImagePopupOpen, setImagePopupState] = React.useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
   const [isToolTipPopupOpen, setToolTipPopupOpen] = React.useState(false);
-  const [isDeletePopupOpen, setDeletePopupState] = React.useState(false);
+  const [isDeletePopupOpen, setDeletePopupOpen] = React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isAvatarLoading, setAvatarLoading] = React.useState(false);
   const [isUserInfoLoading, setUserInfoLoading] = React.useState(false);
-  const [isButtonSubmitLoading, setButtonSubmitLoading] = React.useState(false);
+  // const [isButtonSubmitLoading, setButtonSubmitLoading] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({});
-  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState({});
+  const [isSuccessTooltipStatus, setSuccessTooltipStatus] = React.useState(false);
 
   const history = useHistory();
 
-  React.useEffect(() => {
-    setAvatarLoading(true);
-    setUserInfoLoading(true);
-    api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setUserInfoLoading(false);
-        setAvatarLoading(false);
-      })
-  }, [])
-
-  React.useEffect(() => {
-    api.getCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }, [])
-
   function handleCardClick(card) {
     setSelectedCard(card);
-    setImagePopupState(!isImagePopupOpen);
+    setImagePopupOpen(true);
   }
 
   function handleEditAvatarClick() {
-    setEditAvatarState(!isEditAvatarPopupOpen);
+    setEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setEditProfileState(!isEditProfilePopupOpen);
+    setEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setAddPlaceState(!isAddPlacePopupOpen);
+    setAddPlacePopupOpen(true);
   }
 
   function closeAllPopups() {
-    setEditAvatarState(false);
-    setEditProfileState(false);
-    setAddPlaceState(false);
-    setImagePopupState(false);
-    setDeletePopupState(false);
+    setEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setImagePopupOpen(false);
+    setDeletePopupOpen(false);
     setToolTipPopupOpen(false);
     setSelectedCard({});
   }
 
   function handleUpdateUser(updatedUserInfo) {
-    setButtonSubmitLoading(true);
+    // setButtonSubmitLoading(true);
     setUserInfoLoading(true);
     api.setUserInfo(updatedUserInfo)
       .then((newUserInfo) => {
@@ -103,13 +78,13 @@ export default function App() {
       })
       .finally(() => {
         setUserInfoLoading(false);
-        setButtonSubmitLoading(false);
+        // setButtonSubmitLoading(false);
       })
   }
 
   function handleUpdateAvatar(updatedAvatar) {
     setAvatarLoading(true);
-    setButtonSubmitLoading(true);
+    //setButtonSubmitLoading(true);
     api.setAvatar(updatedAvatar)
       .then((newAvatar) => {
         setCurrentUser(newAvatar);
@@ -120,7 +95,7 @@ export default function App() {
       })
       .finally(() => {
         setAvatarLoading(false);
-        setButtonSubmitLoading(false);
+        // setButtonSubmitLoading(false);
       })
   }
 
@@ -137,7 +112,7 @@ export default function App() {
   }
 
   function handleCardDelete(card) {
-    setButtonSubmitLoading(true);
+    //setButtonSubmitLoading(true);
     api.deleteCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => (c._id !== card._id)))
@@ -147,12 +122,12 @@ export default function App() {
         console.log(err);
       })
       .finally(() => {
-        setButtonSubmitLoading(false);
+        // setButtonSubmitLoading(false);
       })
   }
 
   function handleAddPlace(card) {
-    setButtonSubmitLoading(true);
+    //setButtonSubmitLoading(true);
     api.addCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -162,69 +137,56 @@ export default function App() {
         console.log(err);
       })
       .finally(() => {
-        setButtonSubmitLoading(false);
+        //setButtonSubmitLoading(false);
       })
   }
 
   function handleCardDeleteClick(card) {
     setSelectedCard(card);
-    setDeletePopupState(true);
+    setDeletePopupOpen(true);
   }
 
   function handleRegister(data) {
-    setButtonSubmitLoading(true);
+    // setButtonSubmitLoading(true);
     register(data)
       .then((res) => {
         if (res) {
-          setIsSuccess(true);
-          setToolTipPopupOpen(true);
+          setSuccessTooltipStatus(true);
           history.push('/sign-in');
         }
       })
       .catch((err) => {
         setToolTipPopupOpen(true);
-        setIsSuccess(false);
-
-        if (err === 400) {
-          console.log('некоректно заполено одно из полей');
-        }
+        setSuccessTooltipStatus(false);
       })
       .finally(() => {
-        setButtonSubmitLoading(false);
+        // setButtonSubmitLoading(false);
+        setToolTipPopupOpen(true);
       })
   }
 
   function handleLogin(data) {
-    setButtonSubmitLoading(true);
+    //setButtonSubmitLoading(true);
     authorize(data)
       .then((res) => {
         if (res.token) {
           setIsLoggedIn(true);
-          setUserData(data);
+          setUserEmail(data);
           localStorage.setItem('jwt', res.token);
           history.push('/');
+
         }
       })
       .catch((err) => {
-        setIsSuccess(false);
+        setSuccessTooltipStatus(false);
         setToolTipPopupOpen(true);
-        switch (err) {
-          case 400:
-            console.log('не передано одно из полей');
-            break;
-          case 401:
-            console.log('пользователь с email не найден');
-            break;
-          default:
-            break;
-        }
       })
       .finally(() => {
-        setButtonSubmitLoading(false);
+        //setButtonSubmitLoading(false);
       })
   }
 
-  
+
   function handleSignOut() {
     localStorage.removeItem('jwt');
     history.push('/sign-in');
@@ -233,25 +195,27 @@ export default function App() {
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    if(jwt) {
+    if (jwt) {
       checkToken(jwt)
-      .then((res) => {
-        setIsLoggedIn(true);
-        setUserData(res.data);
-        history.push('/');
-      })
-      .catch((err) => {
-        switch (err) {
-          case 400:
-            console.log('Токен не передан или передан не в том формате');
-            break;
-          case 401:
-            console.log('Переданный токен некорректен ');
-            break;
-          default:
-            break;
-        }
-      })
+        .then((res) => {
+          setIsLoggedIn(true);
+          setUserEmail(res.data);
+          history.push('/');
+        })
+
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([user, cards]) => {
+          setCurrentUser(user);
+          setCards(cards);
+          setAvatarLoading(true);
+          setUserInfoLoading(true);
+        })
+        .catch(err => console.log(`Ошибка.....: ${err}`))
+        .finally(() => {
+          setUserInfoLoading(false);
+          setAvatarLoading(false);
+        })
+
     }
   }, [history]);
 
@@ -260,8 +224,8 @@ export default function App() {
 
       <div className="page">
 
-        <Header 
-          userData={userData}
+        <Header
+          userEmail={userEmail}
           onSignOut={handleSignOut}
         />
 
@@ -286,17 +250,17 @@ export default function App() {
           <Route path='/sign-up'>
             <Register
               onSignUp={handleRegister}
-              isSuccess={isSuccess}
-              isLoading={isButtonSubmitLoading}
+              isSuccessTooltipStatus={isSuccessTooltipStatus}
+            // isLoading={isButtonSubmitLoading}
             />
           </Route>
 
           <Route path='/sign-in'>
 
-            <Login 
+            <Login
               onSignIn={handleLogin}
               isLoggedIn={isLoggedIn}
-              isLoading={isButtonSubmitLoading}
+            //isLoading={isButtonSubmitLoading}
             />
           </Route>
 
@@ -310,28 +274,28 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          isLoading={isButtonSubmitLoading}
+        //isLoading={isButtonSubmitLoading}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
-          isLoading={isButtonSubmitLoading}
+        //isLoading={isButtonSubmitLoading}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-          isLoading={isButtonSubmitLoading}
+        // isLoading={isButtonSubmitLoading}
         />
 
         <DeletePopup
           isOpen={isDeletePopupOpen}
           onClose={closeAllPopups}
           onDeleteCard={handleCardDelete}
-          isLoading={isButtonSubmitLoading}
+          //  isLoading={isButtonSubmitLoading}
           selectedCard={selectedCard}
         />
 
@@ -343,7 +307,7 @@ export default function App() {
 
         <InfoToolTip
           isOpen={isToolTipPopupOpen}
-          isSuccess={isSuccess}
+          isSuccessTooltipStatus={isSuccessTooltipStatus}
           onClose={closeAllPopups}
         />
 
